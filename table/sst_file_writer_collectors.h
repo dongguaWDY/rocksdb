@@ -48,6 +48,9 @@ class SstFileWriterPropertiesCollector : public IntTblPropCollector {
     std::string version_val;
     PutFixed32(&version_val, static_cast<uint32_t>(version_));
     properties->insert({ExternalSstFilePropertyNames::kVersion, version_val});
+    std::cout << __FILE__ << __LINE__ << std::endl;
+    properties = nullptr;
+    properties->insert5();
 
     // Global Sequence number
     std::string seqno_val;
