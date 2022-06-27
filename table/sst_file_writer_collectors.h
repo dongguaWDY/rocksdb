@@ -5,6 +5,7 @@
 
 #pragma once
 #include <string>
+#include <iostream>
 #include "db/dbformat.h"
 #include "db/table_properties_collector.h"
 #include "rocksdb/types.h"
