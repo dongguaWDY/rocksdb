@@ -36,6 +36,7 @@
 #include "rocksdb/convenience.h"
 #include "rocksdb/table.h"
 #include "table/merging_iterator.h"
+#include "table/sst_file_writer_collectors.h"
 #include "util/autovector.h"
 #include "util/cast_util.h"
 #include "util/compression.h"
@@ -111,6 +112,11 @@ void GetIntTblPropCollectorFactory(
     const ImmutableCFOptions& ioptions,
     IntTblPropCollectorFactories* int_tbl_prop_collector_factories) {
   assert(int_tbl_prop_collector_factories);
+
+  // SstFileWriter properties collector to add SstFileWriter version.
+  int_tbl_prop_collector_factories->emplace_back(
+      new SstFileWriterPropertiesCollectorFactory(2 /* version */,
+                                                  0 /* global_seqno*/));
 
   auto& collector_factories = ioptions.table_properties_collector_factories;
   for (size_t i = 0; i < ioptions.table_properties_collector_factories.size();
