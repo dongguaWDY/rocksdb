@@ -5,6 +5,41 @@
 //
 #include "db/output_validator.h"
 
+
+#include <iostream>
+//#include <stream>
+#include <sstream>
+
+
+static std::string string_to_hex(const std::string& input)
+{
+    static const char hex_digits[] = "0123456789ABCDEF";
+
+    std::string output;
+    output.reserve(input.length() * 2);
+    // for (unsigned char c : input)
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        unsigned char c  = input[i];
+        output.push_back(hex_digits[c >> 4]);
+        output.push_back(hex_digits[c & 15]);
+    }
+    return output;
+}
+
+
+std::string HexToStr(const std::string& str)
+{
+    std::string result;
+    for (size_t i = 0; i < str.length(); i += 2)
+    {
+        std::string byte = str.substr(i, 2);
+        char chr = (char)(int)strtol(byte.c_str(), NULL, 16);
+        result.push_back(chr);
+    }
+    return result;
+}
+
 namespace ROCKSDB_NAMESPACE {
 Status OutputValidator::Add(const Slice& key, const Slice& value) {
   if (enable_hash_) {
@@ -21,6 +56,7 @@ Status OutputValidator::Add(const Slice& key, const Slice& value) {
     }
     // prev_key_ starts with empty.
     if (!prev_key_.empty() && icmp_.Compare(key, prev_key_) < 0) {
+      std::cout << "rough:" << string_to_hex(prev_key_) << ":-:-:" << string_to_hex(key.ToString()) << std::endl;
       return Status::Corruption("Compaction sees out-of-order keys.");
     }
     prev_key_.assign(key.data(), key.size());
