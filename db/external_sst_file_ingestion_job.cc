@@ -103,7 +103,6 @@ Status ExternalSstFileIngestionJob::Prepare(
         std::cout << sorted_files[i + 1]->external_file_path << std::endl;
         std::cout << string_to_hex(sorted_files[i]->largest_internal_key.user_key().ToString())<< std::endl;
         std::cout << string_to_hex(sorted_files[i + 1]->smallest_internal_key.user_key().ToString())<< std::endl;
-        string_to_hex
         files_overlap_ = true;
         break;
       }
