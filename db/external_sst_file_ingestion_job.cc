@@ -12,6 +12,7 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+#include <iostream>
 
 #include "db/db_impl/db_impl.h"
 #include "db/version_edit.h"
