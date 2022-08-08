@@ -99,10 +99,10 @@ Status ExternalSstFileIngestionJob::Prepare(
     for (size_t i = 0; i + 1 < num_files; i++) {
       if (sstableKeyCompare(ucmp, sorted_files[i]->largest_internal_key,
                             sorted_files[i + 1]->smallest_internal_key) >= 0) {
-        std::cout << sorted_files[i].external_file_path << std::endl;
-        std::cout << sorted_files[i + 1].external_file_path<< std::endl;
-        std::cout << string_to_hex(sorted_files[i].largest_internal_key.user_key())<< std::endl;
-        std::cout << string_to_hex(sorted_files[i + 1].smallest_internal_key.user_key())<< std::endl;
+        std::cout << sorted_files[i]->external_file_path << std::endl;
+        std::cout << sorted_files[i + 1]->external_file_path << std::endl;
+        std::cout << string_to_hex(sorted_files[i]->largest_internal_key.user_key())<< std::endl;
+        std::cout << string_to_hex(sorted_files[i + 1]->smallest_internal_key.user_key())<< std::endl;
         string_to_hex
         files_overlap_ = true;
         break;
