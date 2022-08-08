@@ -26,6 +26,22 @@
 
 namespace ROCKSDB_NAMESPACE {
 
+static std::string string_to_hex(const std::string& input)
+{
+    static const char hex_digits[] = "0123456789ABCDEF";
+
+    std::string output;
+    output.reserve(input.length() * 2);
+    // for (unsigned char c : input)
+    for (size_t i = 0; i < input.size(); ++i)
+    {
+        unsigned char c  = input[i];
+        output.push_back(hex_digits[c >> 4]);
+        output.push_back(hex_digits[c & 15]);
+    }
+    return output;
+}
+
 Status ExternalSstFileIngestionJob::Prepare(
     const std::vector<std::string>& external_files_paths,
     const std::vector<std::string>& files_checksums,
@@ -82,6 +98,11 @@ Status ExternalSstFileIngestionJob::Prepare(
     for (size_t i = 0; i + 1 < num_files; i++) {
       if (sstableKeyCompare(ucmp, sorted_files[i]->largest_internal_key,
                             sorted_files[i + 1]->smallest_internal_key) >= 0) {
+        std::cout << sorted_files[i].external_file_path << std::endl;
+        std::cout << sorted_files[i + 1].external_file_path<< std::endl;
+        std::cout << string_to_hex(sorted_files[i].largest_internal_key.user_key())<< std::endl;
+        std::cout << string_to_hex(sorted_files[i + 1].smallest_internal_key.user_key())<< std::endl;
+        string_to_hex
         files_overlap_ = true;
         break;
       }
