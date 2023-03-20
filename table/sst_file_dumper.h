@@ -46,7 +46,7 @@ class SstFileDumper {
   Status ShowCompressionSize(size_t block_size, CompressionType compress_type,
                              const CompressionOptions& compress_opt);
 
- private:
+ public:
   // Get the TableReader implementation for the sst file
   Status GetTableReader(const std::string& file_path);
   Status ReadTableProperties(uint64_t table_magic_number,
